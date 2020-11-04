@@ -10,6 +10,7 @@ const rl = readline.createInterface({
 let board = [];
 let solution = '';
 let letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
+let guessNum  = 0;
 
 const printBoard = () =>  {
   for (let i = 0; i < board.length; i++) {
@@ -21,6 +22,8 @@ const generateSolution = () =>  {
   for (let i = 0; i < 4; i++) {
     const randomIndex = getRandomInt(0, letters.length);
     solution += letters[randomIndex];
+    letters.splice(randomIndex, 1)
+    // console.log(letters)
   }
 }
 
@@ -31,31 +34,48 @@ const getRandomInt = (min, max) => {
 const generateHint = (guess) =>  {
   // your code here
   let guessArray = guess.split('');
+  // console.log(guessArray)
   let solutionArray = solution.split('');
+  // console.log(solutionArray)
   let correctLetterLocations = 0;
   let correctLetters = 0;
   for (let i = 0; i < 4; i++) {
     if (guessArray[i] == solutionArray[i]) {
       correctLetterLocations++
       solutionArray[i] = null
+      // console.log(solutionArray)
     }
   }
   for (let x = 0; x < 4; x++) {
-    let targetIndex = guessArray.indexof(i)
+    let targetIndex = solutionArray.indexOf(guessArray[x])
+    // console.log(guessArray[x])
+    // console.log(targetIndex)
     if (targetIndex > -1) {
       correctLetters++
+      // console.log(solution)
+      // console.log(guess)
+      solutionArray[targetIndex] = null;
+      // console.log(solutionArray)
     }
   }
-  console.log(correctLetterLocations + "-" + correctLetters)
+  let hint = correctLetterLocations + "-" + correctLetters
+  guessNum++
+  board.push(`Guess #${guessNum}: ${guess}: ${hint}`)
+  return hint
 }
 
 const mastermind = (guess) => {
-  solution = 'abcd'; // Comment this out to generate a random solution
+  // solution = 'abcd'; // Comment this out to generate a random solution
   // your code here
   if (guess == solution) {
+    console.log('You guessed it!')
     return 'You guessed it!'
+  } else if (board.length < 10) {
+    console.log(`Guess again.`)
+  } else {
+    console.log(`You ran out of turns! The solution was ${solution}. Otherwise, return 'Guess again.`)
   }
-  generateHint(guess)
+  console.log(generateHint(guess))
 }
 
 const getPrompt = () =>  {
