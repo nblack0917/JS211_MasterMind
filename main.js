@@ -28,15 +28,35 @@ const getRandomInt = (min, max) => {
   return Math.floor(Math.random() * (max - min)) + min;
 }
 
-const generateHint = () =>  {
+const generateHint = (guess) =>  {
   // your code here
+  let guessArray = guess.split('');
+  let solutionArray = solution.split('');
+  let correctLetterLocations = 0;
+  let correctLetters = 0;
+  for (let i = 0; i < 4; i++) {
+    if (guessArray[i] == solutionArray[i]) {
+      correctLetterLocations++
+      solutionArray[i] = null
+    }
+  }
+  for (let x = 0; x < 4; x++) {
+    let targetIndex = guessArray.indexof(i)
+    if (targetIndex > -1) {
+      correctLetters++
+    }
+  }
+  console.log(correctLetterLocations + "-" + correctLetters)
 }
 
 const mastermind = (guess) => {
   solution = 'abcd'; // Comment this out to generate a random solution
   // your code here
+  if (guess == solution) {
+    return 'You guessed it!'
+  }
+  generateHint(guess)
 }
-
 
 const getPrompt = () =>  {
   rl.question('guess: ', (guess) => {
